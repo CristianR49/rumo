@@ -37,6 +37,40 @@ class AppTheme {
           padding: EdgeInsets.symmetric(vertical: 16),
         ),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(color: Color.fromARGB(255, 158, 162, 174)),
+
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 229, 231, 234),
+            width: 1.5, 
+          ),
+        ),
+
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(
+              255,
+              229,
+              231,
+              234,
+            ),
+            width: 1.5,
+          ),
+        ),
+        filled: true,
+        fillColor: Colors.white,
+
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1.5,
+          ),
+        ),
+      ),
     );
   }
 }
