@@ -172,8 +172,7 @@ class CreateAccountScreen extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(left: 10, bottom: 10),
                     child: IconButton.filled(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       style: IconButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
                         shape: RoundedRectangleBorder(
