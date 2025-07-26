@@ -1,111 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rumo/core/asset_images.dart';
+import 'package:rumo/features/auth/repositories/auth_repository.dart';
 
-class Formulario extends StatefulWidget {
-  const Formulario({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Formulario> createState() => _FormularioState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _FormularioState extends State<Formulario> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Cadastre-se',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-          ),
-          Text(
-            'Preencha os dados abaixo para criar sua conta.',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'Nome'),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Por favor, insira seu nome';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'E-mail'),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Por favor, insira seu email';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'Senha'),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Por favor, insira sua senha';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 10),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'Confirmar senha'),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Por favor, repita sua senha';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 78, 98, 246),
-                minimumSize: const Size.fromHeight(10),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30,
-                  vertical: 15,
-                ),
-                textStyle: const TextStyle(fontSize: 18),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                criarConta();
-              },
-              child: const Text('Criar conta'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  
-  criarConta() {
-    if (_formKey.currentState!.validate()){
-      print("fomr validso");
-    }
-    else{
-      print("form invalido");
-    }
-  }
-}
-
-class CreateAccountScreen extends StatelessWidget {
-  const CreateAccountScreen({super.key});
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -126,10 +33,10 @@ class CreateAccountScreen extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AssetImages.logo,
-                        width: 133,
+                        width: 134,
                         height: 52,
                       ),
-                      Text(
+                      const Text(
                         'Memórias na',
                         style: TextStyle(
                           color: Colors.white,
@@ -138,8 +45,8 @@ class CreateAccountScreen extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10),
                         child: Text(
                           'palma da mão.',
                           style: TextStyle(
@@ -153,55 +60,221 @@ class CreateAccountScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Image.asset(
-                    AssetImages.createAccountCharacter,
-                    alignment: Alignment.topLeft,
-                  ),
+                Image.asset(
+                  AssetImages.loginCharacter,
+                  alignment: Alignment.topRight,
                 ),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, bottom: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, bottom: 12),
                     child: IconButton.filled(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       style: IconButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      padding: EdgeInsets.zero,
-
-                      color: Color(0xFF383838),
-                      icon: Icon(Icons.chevron_left),
+                      color: const Color(0xFF383838),
+                      icon: const Icon(Icons.chevron_left),
                     ),
                   ),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  height: 522,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.white,
-                  ),
-                  child: Padding(
+                  Container(
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                      color: Colors.white,
+                    ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
                       vertical: 32,
                     ),
-                    child: Formulario(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bem vindo (a) de volta!',
+                          style: TextStyle(
+                            color: const Color(0xFF1E1E1E),
+                            fontSize: 24,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                            height: 1.20,
+                            letterSpacing: -0.48,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Preencha com seus dados.',
+                          style: TextStyle(
+                            color: const Color(0xFF1E1E1E),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                            height: 1.40,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Form(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUnfocus,
+                          child: Column(
+                            spacing: 16,
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'E-mail',
+                                ),
+                                validator: (value) {
+                                  final invalidEmailText =
+                                      'Insira um e-mail válido';
+
+                                  if (value == null || value.trim().isEmpty) {
+                                    return invalidEmailText;
+                                  }
+
+                                  final email = value.trim();
+
+                                  if (!email.contains('@') ||
+                                      !email.contains('.')) {
+                                    return invalidEmailText;
+                                  }
+
+                                  final parts = email.split('@');
+                                  final firstPart = parts[0];
+
+                                  if (firstPart.trim().isEmpty) {
+                                    return invalidEmailText;
+                                  }
+
+                                  final lastPart = parts[1];
+
+                                  if (lastPart.trim().isEmpty ||
+                                      !lastPart.contains('.')) {
+                                    return invalidEmailText;
+                                  }
+
+                                  if (lastPart.startsWith('.') ||
+                                      lastPart.endsWith('.')) {
+                                    return invalidEmailText;
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Senha',
+                                ),
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Por favor, insira uma senha';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 62),
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: FilledButton(
+                          onPressed: isLoading
+                              ? null
+                              : () async {
+                                  // Navigator.of(
+                                  //   context,
+                                  // ).popUntil((route) => route.isFirst);
+
+                                  // Navigator.of(
+                                  //   context,
+                                  // ).pushReplacementNamed("/home");
+                                  final isValid =
+                                      _formKey.currentState?.validate() ??
+                                      false;
+                                  if (isValid) {
+                                    try {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+
+                                      final authRepository = AuthRepository();
+                                      //await Future.wait();
+                                      await authRepository.loginAccount();
+
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    } on AuthException catch (error) {
+                                      if (!context.mounted) return;
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text('Erro'),
+                                            content: Text(error.getMessage()),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text("OK"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                    ;
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
+                                },
+                          child: Builder(
+                            builder: (context) {
+                              if (isLoading) {
+                                return SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                );
+                              }
+                              return Text('Logiiin');
+                            },
+                          ),
+                        ),
+                        ),
+                        // const SizedBox(height: 16),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('Esqueci minha senha'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

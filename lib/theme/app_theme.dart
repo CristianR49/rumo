@@ -26,6 +26,13 @@ class AppTheme {
             borderRadius: BorderRadius.circular(12),
           ),
           padding: EdgeInsets.symmetric(vertical: 16),
+          textStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w600,
+            height: 1.33,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -37,39 +44,47 @@ class AppTheme {
           padding: EdgeInsets.symmetric(vertical: 16),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.black,
+          textStyle: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            height: 24 / 12,
+            decoration: TextDecoration.underline,
+            decorationColor: Colors.black,
+          ),
+        ),
+      ),
+
+      /// InputDecorationTheme controla a aparência dos inputs de texto
       inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(color: Color.fromARGB(255, 158, 162, 174)),
-
+        hintStyle: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF9EA2AE),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFFE5E7EA), width: 1.5),
+        ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(255, 229, 231, 234),
-            width: 1.5, 
-          ),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFFE5E7EA), width: 1.5),
         ),
-
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(
-              255,
-              229,
-              231,
-              234,
-            ),
-            width: 1.5,
-          ),
-        ),
-        filled: true,
-        fillColor: Colors.white,
-
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 1.5,
-          ),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Color(0xFFEE443F), width: 1.5),
         ),
+        fillColor: WidgetStateColor.resolveWith((states) {
+          if (states.contains(WidgetState.error)) {
+            return Color(0xFFFDECEC);
+          }
+          return Color(0xFFF9FAFB);
+        }),
+        filled: true,
       ),
     );
   }
